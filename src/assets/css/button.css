@@ -1,0 +1,18 @@
+.btn-default{
+    background-color: #019160;
+    border-radius: 4px;
+    height: 40px;
+    font-size: 13px;
+    font-family: 'GoogleSans-Regular';
+    text-align: left;
+}
+
+.btn-icon-add{
+    height: 40px;
+    width: 40px;
+    background-image: url('../icon/add.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-left: 16px;
+    padding-right: 8px;
+}
