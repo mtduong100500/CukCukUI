@@ -131,6 +131,7 @@ export default {
     formatDate(date) {
       return moment(String(date)).format("DD/MM/YYYY");
     },
+    
   },
   created: async function () {
     var data = await axios.get("http://cukcuk.manhnv.net/v1/Employees");

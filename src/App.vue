@@ -4,7 +4,7 @@
     <div class="d-flex flex-1 flex-direction-col">
       <Header />
       <router-view/>
-        <FormDetails v-if="$store.state.isOpen"/>
+        <FormDetails v-if="$store.state.isOpen" @keypress.enter="$store.commit('changeFormState')"/>
     </div>
   </div>
   

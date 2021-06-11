@@ -100,7 +100,6 @@ export default {
 }
 .input-field{
   position: relative;
-  width: 100%;
   text-align: left;
   outline: none;
   border: none;
