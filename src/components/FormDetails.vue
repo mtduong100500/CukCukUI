@@ -20,7 +20,7 @@
           <div class="row-input d-flex justify-between f-13">
             <div class="input-field d-flex flex-direction-col">
               <label class="text-left">Mã nhân viên<span>(*)</span></label>
-              <input type="text" class="input" v-model="EmployeeCode" :class="applyInputStyle(EmployeeCode)" ref="employeeCodeInput"/>
+              <input type="text" class="input" v-model="EmployeeCode" :class="applyInputStyle(EmployeeCode)" ref="employeeCodeInput" tabindex="0"/>
             </div>
             <div class="input-field d-flex flex-direction-col">
               <label class="text-left">Họ và tên(*)</label>
@@ -121,11 +121,38 @@
         </div>
       </div>
       <div class="button-group d-flex flex-1 align-center justify-end">
-          <button class="cancel-btn d-flex align-center justify-center mr-16" @click="$store.commit('changeFormState')">Hủy</button>
-          <button class="save-btn d-flex align-center justify-center">Lưu</button>
+          <button 
+          class="cancel-btn d-flex align-center justify-center mr-16" 
+          @click="$store.commit('changeCloseState')
+                  
+           ">Hủy</button>
+          <button class="save-btn d-flex align-center justify-center" @click="$store.commit('changeSaveState')">Lưu</button>
       </div>
-
     </div>
+    <CloseDialog 
+    v-if="$store.state.isClose"
+    title="Đóng Form thông tin chung" 
+    message='Bạn có chắc muốn đóng form nhập "Thông tin chung của thủ tục 603" hay không'
+    button1="Tiếp tục nhập"
+    button2="Đóng"
+    />
+
+    <DeleteDialog 
+    v-if="$store.state.isDelete"
+    title="Xóa bản ghi A" 
+    message='Bạn có chắc muốn đóng form nhập "Thông tin chung của thủ tục 603" hay không'
+    button1="Hủy"
+    button2="Xóa"
+    />
+
+    <SaveDialog 
+    v-if="$store.state.isSave"
+    title="Lưu thông tin" 
+    message='Bạn có chắc muốn đóng lưu thông tin "Thông tin chung của thủ tục 603" hay không'
+    button1="Không"
+    button2="Đồng ý"
+    />
+    
   </div>
 </template>
 
@@ -134,7 +161,7 @@ import CustomSelect from './CustomSelect.vue'
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import moment from "moment";
-
+import CloseDialog from './CloseDialog.vue'
 export default {
   name: "FormDetails",
   data() {
@@ -147,7 +174,7 @@ export default {
       ID: '',
       email: '',
       PhoneNumber: '',
-      testValue: '', 
+      editedItem:[],
       momentFormat: {
       // Date to String
         stringify: (date) => {
@@ -161,11 +188,10 @@ export default {
     }
     };
   },
-  computed:{
-  },
   components:{
     CustomSelect,
-    DatePicker 
+    DatePicker,
+    CloseDialog
   },
   methods: {
     applyInputStyle(targetInput) { 
@@ -175,7 +201,6 @@ export default {
       }else{
         return ['error-input']
       }
-      //return [targetInput && targetInput.length > 0 ? 'success-input' : 'error-input']
     },
     focusInput() {
       this.$refs.employeeCodeInput.focus()

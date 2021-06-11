@@ -128,3 +128,22 @@ button:hover{
 .f-13{
     font-size: 13px;
 }
+
+.float-right{
+    float: right;
+}
+
+.p-24{
+    padding: 24px;
+}
+
+.pr-24{
+    padding-right: 24px;
+}
+.pb-24{
+    padding-bottom: 24px;
+}
+
+.pl-24{
+    padding-left: 24px;
+}

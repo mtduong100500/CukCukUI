@@ -80,6 +80,7 @@ export default {
 </script>
 
 <style>
+
 .filter-select{
   color: #000000;
   border-radius: 0px 0px 6px 6px;
