@@ -5,6 +5,10 @@
         <div class="ml-16 mt-12 title">THÔNG TIN NHÂN VIÊN</div>
         <div class="btn-exit" @click="$store.commit('changeFormState')"></div>
       </div>
+      <!-- 
+        Nội dung chính của FORM
+        CreatedBy : MTDUONG(21/6/2021)
+      -->
       <div class="form-container d-flex">
         <div class="avatar-upload">
           <div class="avatar-holder"></div>
@@ -120,6 +124,10 @@
           </div>
         </div>
       </div>
+      <!-- 
+        Hai nút Lưu và Hủy
+        CreatedBy : MTDUONG(21/6/2021)
+      -->
       <div class="button-group d-flex flex-1 align-center justify-end">
           <button 
           class="cancel-btn d-flex align-center justify-center mr-16" 
@@ -129,6 +137,10 @@
           <button class="save-btn d-flex align-center justify-center" @click="$store.commit('changeSaveState')">Lưu</button>
       </div>
     </div>
+    <!-- 
+        Cảnh báo khi đóng Form
+        CreatedBy : MTDUONG(21/6/2021)
+      -->
     <CloseDialog 
     v-if="$store.state.isClose"
     title="Đóng Form thông tin chung" 
@@ -136,7 +148,10 @@
     button1="Tiếp tục nhập"
     button2="Đóng"
     />
-
+    <!-- 
+        Cảnh báo khi xóa dữ liệu
+        CreatedBy : MTDUONG(21/6/2021)
+      -->
     <DeleteDialog 
     v-if="$store.state.isDelete"
     title="Xóa bản ghi A" 
@@ -144,7 +159,11 @@
     button1="Hủy"
     button2="Xóa"
     />
-
+    <!-- 
+        Cảnh báo khi lưu dữ liệu (chưa áp dụng vì chưa làm nút xóa)
+        CreatedBy : MTDUONG(21/6/2021)
+        
+    -->
     <SaveDialog 
     v-if="$store.state.isSave"
     title="Lưu thông tin" 
@@ -166,25 +185,27 @@ export default {
   name: "FormDetails",
   data() {
     return {
+      // Modal datetime
       receivedDate: null,
       dob: null,
       enrollDate: null,
+      // Modal thông tin nhân viên
       EmployeeCode: '',
       FullName: '',
       ID: '',
       email: '',
       PhoneNumber: '',
-      editedItem:[],
+      
+      // Đạnh dạng Vue Datepicker 
       momentFormat: {
-      // Date to String
+        // Ngày tháng sang chuỗi dùng momentjs
         stringify: (date) => {
           return date ? moment(String(date)).format("DD/MM/YYYY") : ''
         },
-        //[optional]  String to Date
+        //[optional]  Chuỗi sang ngày tháng dùng momentjs
         parse: (value) => {
           return value ? moment(value, 'LL').toDate() : null
         },
-
     }
     };
   },
@@ -194,18 +215,27 @@ export default {
     CloseDialog
   },
   methods: {
+
+    // Khi ô input trống sẽ hiển thị viền đỏ
+    // Khi ô input không trống sẽ hiển thị viền xanh
+    // CreatedBy MTDUONG (12/6/2021)
     applyInputStyle(targetInput) { 
-      // bind with one method and return Array
       if(targetInput && targetInput.length > 0){
         return ['success-input']
       }else{
         return ['error-input']
       }
     },
+
+    // Focus vào ô input đầu tiên
+    // CreatedBy MTDUONG (12/6/2021)
     focusInput() {
       this.$refs.employeeCodeInput.focus()
     }
   },
+
+  // Focus vào ô input đầu tiên
+  // CreatedBy MTDUONG (12/6/2021)
   mounted() {
     this.focusInput()
   }

@@ -1,8 +1,20 @@
 <template>
+  <!--
+    Custom Select với chức năng filter
+    CreatedBy MTDUONG (12/06/2021)
+  -->
   <div class="custom-select" :tabindex="tabindex" @blur="open = false">
+    <!--
+      ô in input để lọc dữ liệu
+      CreatedBy MTDUONG (12/06/2021)
+    -->
     <div class="selected" :class="{ open: open }" @click="open = !open">
       <input type="text" class="input-field" v-model="option" autocomplete="off" @input="filterItem" >
     </div>
+    <!--
+      Hiển thị tất cả dữ liệu có sẵn
+      CreatedBy MTDUONG (12/06/2021)
+    -->
     <div v-if="filteredItems.length < 1" class="items" :class="{ selectHide: !open }">
       <div
         v-for="(option, i) of options"
@@ -15,8 +27,11 @@
       >
         {{ option }}
       </div>
-      
     </div>
+    <!--
+      Hiển thị dữ liệu đã được filter
+      CreatedBy MTDUONG (12/06/2021)
+    -->
     <div v-if="filteredItems" class="filter-select" :class="{ selectHide: !open }">
       <div
         class=""
@@ -67,11 +82,16 @@ export default {
     this.$emit("input", this.selected);
   },
   methods:{
+    // Lọc dữ liệu
+    // CreatedBy MTDUONG (12/05/2021)
     filterItem(){
       this.filteredItems = this.options.filter(option => {
           return option.toLowerCase().startsWith(this.option.toLowerCase())
       })
     },
+
+    // Hiển thị value khi chọn
+    // CreatedBy MTDUONG (12/05/2021)
     setValue(option){
       this.option = option
     }

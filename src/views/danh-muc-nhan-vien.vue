@@ -1,5 +1,9 @@
 <template>
   <div class="d-flex flex-direction-col flex-1">
+      <!-- Phần thanh công cụ tìm kiếm, combobox và tải lại bảng
+      // CreatedBy : MTDUONG(21/6/2021)
+      -->
+
     <div class="title d-flex justify-between regular">
       <div class="mt-12 mb-12 ml-16">
         <p class="title" >Danh sách nhân viên</p>
@@ -35,6 +39,10 @@
       <div class="reload-btn mr-16">
       </div>
     </div>
+
+    <!-- Phần nội dung chính của bản
+     // CreatedBy : MTDUONG(21/6/2021)
+    -->
     <div class="table mt-12 ml-16 mr-16">
       <table class="w-full">
         <thead>
@@ -52,9 +60,11 @@
         <tbody>
           <tr
             class="regular f-13 ml-16 mr-16 py-12 text-left px-12 data-row"
-            v-for="(employee, index) in employees"
-            :key="index"
-            @dblclick="$store.commit('changeFormState')"
+            v-for="employee in employees" 
+            :key="employee.EmployeeCode"
+            @dblclick="$store.commit('changeFormState')" 
+            :class='{"active-item": currentItem === employee.EmployeeCode}'
+            @keyup='nextItem'
           >
             <td class="px-12 py-12">{{ employee.EmployeeCode }}</td>
             <td class="px-12 py-12">{{ employee.FullName }}</td>
@@ -69,6 +79,10 @@
         </tbody>
       </table>
     </div>
+
+    <!-- Phần phân chia trang
+     // CreatedBy : MTDUONG(21/6/2021)
+    -->
     <div class="pagenation mr-16 ml-16 d-flex justify-between align-center">
       <div class="data-number">
         <p class="f-13">Hiển thị 1-10/1000 nhân viên</p>
@@ -102,6 +116,7 @@ export default {
   },
   data() {
     return {
+      currentItem: 1,
       headers: [
         { text: "Mã nhân viên" },
         { text: "Họ và tên" },
@@ -117,10 +132,21 @@ export default {
     };
   },
 
+  // Sử dụng phím lên xuống để di chuyển trong table (chưa hoàn thiện)
+   // CreatedBy : MTDUONG(21/6/2021)
+  mounted(){
+    document.addEventListener("keyup", this.nextItem);
+  },
+
   methods: {
+    // Định dạng giới tính: 0 là Nữ, 1 là Nam, 2 là Khác
+    // CreatedBy : MTDUONG(21/6/2021)
     formatGender(value) {
       return value === 0 ? "Nữ" : value === 1 ? "Nam" : "Khác";
     },
+
+    // Thêm dấu chấm mỗi 3 chữ số
+    // CreatedBy : MTDUONG(21/6/2021)
     formatMoney(money) {
       return money === null
         ? "0"
@@ -128,11 +154,23 @@ export default {
         ? money.toString().replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1.")
         : money;
     },
+
+    // Định dạng ngày tháng theo chuẩn VN (VD: 10/05/2000)
+    // CreatedBy : MTDUONG(21/6/2021)
     formatDate(date) {
       return moment(String(date)).format("DD/MM/YYYY");
     },
+    nextItem (e) {
+    	if (e.keyCode == 38 && this.currentItem > 1) {
+      	this.currentItem--
+      } else if (e.keyCode == 40 && this.currentItem < this.employees.length) {
+      	this.currentItem++
+      }
+    }
     
   },
+  // Lấy dữ liệu tren API
+  // CreatedBy : MTDUONG(21/6/2021)
   created: async function () {
     var data = await axios.get("http://cukcuk.manhnv.net/v1/Employees");
     this.employees = data.data;
@@ -141,6 +179,9 @@ export default {
 </script>
 
 <style scoped>
+tr.active-item {
+  background-color: red;
+}
 .reload-btn{
   background-image: url('../assets/icon/refresh.png');
   background-repeat: no-repeat;
